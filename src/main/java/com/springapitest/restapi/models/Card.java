@@ -1,26 +1,25 @@
 package com.springapitest.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springapitest.restapi.utility.AbstractEntityTimeStamps;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity // Make a table out of this class
 public class Card extends AbstractEntityTimeStamps {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String  cardId;
 
-    // fk
-    @ManyToOne
-    @JoinColumn(name = "productId")
-    private Product product;
+    @Column(nullable = false)
+    private String productId;
 
     @Column(nullable = false)
     private String holder;
@@ -54,12 +53,12 @@ public class Card extends AbstractEntityTimeStamps {
         this.cardId = cardId;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getHolder() {
