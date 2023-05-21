@@ -1,28 +1,40 @@
 package com.springapitest.restapi.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.springapitest.restapi.utility.AbstractEntityTimeStamps;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity //Make a table out of this class
-public class Card {
-
-
-
+@Entity // Make a table out of this class
+public class Card extends AbstractEntityTimeStamps {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer cardId;
-    private String holder;
-    private String type;
-    private Date expiration;
-    private Boolean active;
-    private Integer balance;
 
+    @Column(unique = true, nullable = false)
+    private Integer cardId;
+
+    // fk
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    private Product product;
+
+    @Column(nullable = false)
+    private String holder;
+
+    @Column(nullable = false)
+    private String type;
+
+    @Column(nullable = false)
+    private Date expiration;
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean active;
+    
+    @Column(columnDefinition = "Decimal(12,2) default '0.00'", nullable = false)
+    private BigDecimal balance = BigDecimal.ZERO;
 
     public Integer getId() {
         return id;
@@ -72,17 +84,12 @@ public class Card {
         this.active = active;
     }
 
-    public Integer getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
-
-
-
-
-
 
 }
