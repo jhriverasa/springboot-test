@@ -9,57 +9,22 @@ import java.math.BigDecimal;
 public class Transaction extends AbstractEntityTimeStamps {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(unique = true, nullable = false)
-    private Integer transactionId;
+    private Long transactionId;
 
     // fk
     @ManyToOne
     @JoinColumn(name = "cardId")
     private Card card;
+
     @Column(columnDefinition = "Decimal(12,2)", nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
+
     @Column(nullable = false)
     private String status;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public Integer getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(Integer transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

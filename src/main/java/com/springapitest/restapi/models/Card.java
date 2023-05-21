@@ -4,17 +4,18 @@ import com.springapitest.restapi.utility.AbstractEntityTimeStamps;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity // Make a table out of this class
 public class Card extends AbstractEntityTimeStamps {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(unique = true, nullable = false)
-    private Integer cardId;
+    private String  cardId;
 
     // fk
     @ManyToOne
@@ -28,28 +29,37 @@ public class Card extends AbstractEntityTimeStamps {
     private String type;
 
     @Column(nullable = false)
-    private Date expiration;
+    private LocalDate expiration;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean active;
-    
+
     @Column(columnDefinition = "Decimal(12,2) default '0.00'", nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
 
-    public Integer getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getCardId() {
+    public String getCardId() {
         return cardId;
     }
 
-    public void setCardId(Integer cardId) {
+    public void setCardId(String cardId) {
         this.cardId = cardId;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public String getHolder() {
@@ -68,11 +78,11 @@ public class Card extends AbstractEntityTimeStamps {
         this.type = type;
     }
 
-    public Date getExpiration() {
+    public LocalDate getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(Date expiration) {
+    public void setExpiration(LocalDate expiration) {
         this.expiration = expiration;
     }
 
@@ -91,5 +101,4 @@ public class Card extends AbstractEntityTimeStamps {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
-
 }

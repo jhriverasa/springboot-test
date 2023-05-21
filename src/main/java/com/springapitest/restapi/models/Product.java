@@ -7,11 +7,11 @@ import jakarta.persistence.*;
 public class Product extends AbstractEntityTimeStamps {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(unique = true, nullable = false)
-    private Integer productId;
+    private Long productId;
 
     @Column(nullable = false)
     private String name;
@@ -19,19 +19,19 @@ public class Product extends AbstractEntityTimeStamps {
     @Column(nullable = false)
     private String description;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
@@ -50,5 +50,4 @@ public class Product extends AbstractEntityTimeStamps {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
