@@ -60,7 +60,7 @@
 			<version>3.0.0</version>
 		</dependency>
 
-		<!-- lombok -->
+		<!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
