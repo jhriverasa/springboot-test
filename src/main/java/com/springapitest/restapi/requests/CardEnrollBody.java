@@ -1,10 +1,9 @@
-package com.springapitest.restapi.utility.request.bodies;
+package com.springapitest.restapi.requests;
 
-import jakarta.validation.*;
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 public class CardEnrollBody {
-    @Valid
+
     @NotBlank(message = "cardId field is mandatory")
     private String cardId;
 

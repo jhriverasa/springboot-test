@@ -99,4 +99,5 @@ public class Card extends AbstractEntityTimeStamps {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
 }

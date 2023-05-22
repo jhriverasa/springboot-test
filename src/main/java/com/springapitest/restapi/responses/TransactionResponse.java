@@ -1,21 +1,16 @@
-package com.springapitest.restapi.utility.response.types;
+package com.springapitest.restapi.responses;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
 public class TransactionResponse {
-    @Valid
-    @NotBlank(message = "cardId field is mandatory")
+
     private String transactionId;
 
-    @NotBlank(message = "balance field is mandatory")
-    @Positive(message = "the price quantity should be positive")
+
     private BigDecimal price;
 
-    @NotBlank(message = "balance field is mandatory")
+
     private String status;
 
     public String getTransactionId() {

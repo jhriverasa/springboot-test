@@ -66,11 +66,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-		<!-- Jakarta Validation -->
+
+		<!-- Javax Validations -->
 		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-			<version>3.0.2</version>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
 		</dependency>
 
 

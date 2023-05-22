@@ -1,10 +1,10 @@
 package com.springapitest.restapi.controllers;
 
 import com.springapitest.restapi.utility.Utility;
-import com.springapitest.restapi.utility.request.bodies.CardBalanceBody;
-import com.springapitest.restapi.utility.request.bodies.CardEnrollBody;
-import com.springapitest.restapi.utility.response.types.StringResponse;
-import jakarta.validation.Valid;
+import com.springapitest.restapi.requests.CardBalanceBody;
+import com.springapitest.restapi.requests.CardEnrollBody;
+import com.springapitest.restapi.responses.StringResponse;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;

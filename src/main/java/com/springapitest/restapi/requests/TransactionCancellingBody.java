@@ -1,13 +1,13 @@
-package com.springapitest.restapi.utility.request.bodies;
+package com.springapitest.restapi.requests;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+
+import javax.validation.constraints.NotBlank;
 
 public class TransactionCancellingBody {
-    @Valid
+
     @NotBlank(message = "cardId field is mandatory")
     private String cardId;
-    @Valid
+
     @NotBlank(message = "transactionId field is mandatory")
     private String transactionId;
 

@@ -3,12 +3,12 @@ package com.springapitest.restapi.controllers;
 import com.springapitest.restapi.models.Transaction;
 import com.springapitest.restapi.repositories.TransactionRepository;
 
-import com.springapitest.restapi.utility.request.bodies.CardBalanceBody;
-import com.springapitest.restapi.utility.request.bodies.TransactionCancellingBody;
-import com.springapitest.restapi.utility.request.bodies.TransactionPurchaseBody;
-import com.springapitest.restapi.utility.response.types.StringResponse;
-import com.springapitest.restapi.utility.response.types.TransactionResponse;
-import jakarta.validation.Valid;
+import com.springapitest.restapi.requests.CardBalanceBody;
+import com.springapitest.restapi.requests.TransactionCancellingBody;
+import com.springapitest.restapi.requests.TransactionPurchaseBody;
+import com.springapitest.restapi.responses.StringResponse;
+import com.springapitest.restapi.responses.TransactionResponse;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static com.springapitest.restapi.utility.Utility.generateStringDigits;
 
@@ -147,11 +148,11 @@ public class TransactionController {
             Transaction transactionToSave = transacts.get(0);
             // verifies that cardId from transaction corresponds to cardId
             // in other words that transactions was made using this specific card
-            if (transactionToSave.getCard().getCardId() != cardToSave.getCardId()) {
+            if (!Objects.equals(transactionToSave.getCard().getCardId(), cardToSave.getCardId())) {
                 throw new RuntimeException("Invalid Ids");
             }
 
-            if (transactionToSave.getStatus() == Transaction.STATUS_CANCELLED) {
+            if (Objects.equals(transactionToSave.getStatus(), Transaction.STATUS_CANCELLED)) {
                 throw new RuntimeException("Transaction already canceled.");
             }
             LocalDateTime now = LocalDateTime.now();
