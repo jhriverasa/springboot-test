@@ -16,7 +16,7 @@ public class Card extends AbstractEntityTimeStamps {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String  cardId;
+    private String cardId;
 
     @Column(nullable = false)
     private String productId;
@@ -35,7 +35,6 @@ public class Card extends AbstractEntityTimeStamps {
 
     @Column(columnDefinition = "Decimal(12,2) default '0.00'", nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
-
 
     public Long getId() {
         return id;

@@ -11,10 +11,8 @@ import java.lang.System;
 @SpringBootApplication
 public class RestapiApplication {
 
-
-
 	public static void main(String[] args) {
-		//dotenv config
+		// dotenv config
 		Dotenv dotenv = Dotenv.configure().load();
 
 		// Define properties based on .env
@@ -24,7 +22,7 @@ public class RestapiApplication {
 		System.setProperty("DBPORT", dotenv.get("DBPORT"));
 		System.setProperty("DBNAME", dotenv.get("DBNAME"));
 
-		//Starts app
+		// Starts app
 		SpringApplication.run(RestapiApplication.class, args);
 	}
 

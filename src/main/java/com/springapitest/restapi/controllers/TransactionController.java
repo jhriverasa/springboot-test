@@ -4,6 +4,7 @@ import com.springapitest.restapi.models.Transaction;
 import com.springapitest.restapi.repositories.TransactionRepository;
 
 import com.springapitest.restapi.utility.request.bodies.CardBalanceBody;
+import com.springapitest.restapi.utility.request.bodies.TransactionCancellingBody;
 import com.springapitest.restapi.utility.request.bodies.TransactionPurchaseBody;
 import com.springapitest.restapi.utility.response.types.StringResponse;
 import com.springapitest.restapi.utility.response.types.TransactionResponse;
@@ -20,6 +21,7 @@ import com.springapitest.restapi.repositories.CardRepository;
 
 import java.math.BigDecimal;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.springapitest.restapi.utility.Utility.generateStringDigits;
@@ -116,6 +118,69 @@ public class TransactionController {
             System.out.println("Error message: " + e.getMessage());
             return new ResponseEntity<>(new StringResponse("Error: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    // 2. 1) Anular transaccion
+    @PostMapping(path = "/transaction/anulation", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> transactionCancelling(@Valid @RequestBody TransactionCancellingBody body) {
+        try {
+
+            String transactionId = body.getTransactionId();
+            String cardId = body.getCardId();
+            // evaluates a reg.expression for strings of 16 digits
+            if (transactionId == null || !transactionId.matches("[0-9]{16}") || cardId == null
+                    || !cardId.matches("[0-9]{16}")) {
+                throw new RuntimeException("Invalid body for this request");
+            }
+
+            List<Card> cards = cardRepository.getCardByCardId(cardId);
+            List<Transaction> transacts = transactionRepository.getTransactionByTransactionId(transactionId);
+            if (cards.size() != 1 || transacts.size() != 1) {
+                throw new RuntimeException("Invalid Ids");
+            }
+
+            Card cardToSave = cards.get(0);
+            if (!cardToSave.getActive()) {
+                throw new RuntimeException("Inactive card.");
+            }
+
+            Transaction transactionToSave = transacts.get(0);
+            // verifies that cardId from transaction corresponds to cardId
+            // in other words that transactions was made using this specific card
+            if (transactionToSave.getCard().getCardId() != cardToSave.getCardId()) {
+                throw new RuntimeException("Invalid Ids");
+            }
+
+            if (transactionToSave.getStatus() == Transaction.STATUS_CANCELLED) {
+                throw new RuntimeException("Transaction already canceled.");
+            }
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime oneMonthAfterCreation = (transactionToSave.getCreatedAt()).plusMonths(1l);
+            if (oneMonthAfterCreation.compareTo(now) < 0) {
+                throw new RuntimeException(
+                        "More than a month has passed. This transaction can no longer be cancelled.");
+            }
+
+            BigDecimal curBalance = cardToSave.getBalance();
+            BigDecimal additionalBalance = transactionToSave.getPrice();
+            BigDecimal newBalance = curBalance.add(additionalBalance);
+
+            cardToSave.setBalance(newBalance);
+            transactionToSave.setStatus(Transaction.STATUS_CANCELLED);
+            transactionRepository.save(transactionToSave);
+            cardRepository.save(cardToSave);
+
+            CardBalanceBody res = new CardBalanceBody();
+            res.setCardId(cardId);
+            res.setBalance(newBalance);
+
+            return new ResponseEntity<>(res, HttpStatus.OK);
+
+        } catch (Exception e) {
+            System.out.println("Error message: " + e.getMessage());
+            return new ResponseEntity<>(new StringResponse("Error: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

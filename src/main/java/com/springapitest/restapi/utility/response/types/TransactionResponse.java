@@ -42,4 +42,3 @@ public class TransactionResponse {
         this.status = status;
     }
 }
-

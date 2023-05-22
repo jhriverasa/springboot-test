@@ -32,7 +32,8 @@ public class CardController {
     public ResponseEntity<Object> generateCardNumber(@PathVariable("productId") String productId) {
         try {
             String idFirstPart = productId;
-            if (idFirstPart.length() != 6) {
+
+            if (!idFirstPart.matches("[0-9]{6}")) {
                 throw new RuntimeException("invalid productId");
             }
 
@@ -140,7 +141,7 @@ public class CardController {
             }
 
             Card cardToSave = cards.get(0);
-            if (cardToSave.getActive()) {
+            if (!cardToSave.getActive()) {
                 throw new RuntimeException("Inactive card.");
             }
 
