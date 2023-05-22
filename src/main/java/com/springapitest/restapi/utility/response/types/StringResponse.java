@@ -1,4 +1,4 @@
-package com.springapitest.restapi.utility;
+package com.springapitest.restapi.utility.response.types;
 
 public class StringResponse {
 
