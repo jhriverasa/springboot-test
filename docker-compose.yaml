@@ -1,19 +1,19 @@
-# This uses port 3306 not .env file value change it 
-# according the DBPORT value contained in .env
+
 version: '3.6'
 name: "database"
 services:
   db:
     image: mysql:8
     ports:
-      - '3306:3306' #
+      - ${DBPORT}:${DBPORT}
     expose:
-      - '3306'
+      - ${DBPORT}
     volumes:
       - db:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DBPASSWORD}
+      MYSQL_DATABASE: ${DBNAME}
 
 volumes:
   db:

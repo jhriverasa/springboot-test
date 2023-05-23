@@ -34,3 +34,5 @@ build/
 
 ### Env variables ###
 .env
+
+/app-springboot
