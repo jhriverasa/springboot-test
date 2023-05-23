@@ -130,6 +130,9 @@ public class CardController {
         try {
             String cardId = body.getCardId();
             BigDecimal balanceToAdd = body.getBalance();
+            if (balanceToAdd.signum() == -1 || balanceToAdd.signum() == 0){
+                throw new RuntimeException("Balance should be positive");
+            }
             // evaluates a reg.expression for strings of 10 digits
             if (cardId == null || !cardId.matches("[0-9]{16}")) {
                 throw new RuntimeException("Invalid body for this request");

@@ -111,11 +111,6 @@ public class TransactionController {
 
         } catch (Exception e) {
             System.out.println("Something went wrong.");
-            if (e.getMessage().indexOf("Duplicate entry") != -1) {
-                // sends a default message so that it avoids sending sensible data
-                return new ResponseEntity<>(new StringResponse("Error: an error occurred, try again."),
-                        HttpStatus.BAD_REQUEST);
-            }
             System.out.println("Error message: " + e.getMessage());
             return new ResponseEntity<>(new StringResponse("Error: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
@@ -156,10 +151,10 @@ public class TransactionController {
                 throw new RuntimeException("Transaction already canceled.");
             }
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime oneMonthAfterCreation = (transactionToSave.getCreatedAt()).plusMonths(1l);
-            if (oneMonthAfterCreation.compareTo(now) < 0) {
+            LocalDateTime oneDayAfterCreation = (transactionToSave.getCreatedAt()).plusDays(1l);
+            if (oneDayAfterCreation.compareTo(now) < 0) {
                 throw new RuntimeException(
-                        "More than a month has passed. This transaction can no longer be cancelled.");
+                        "More than a Day has passed. This transaction can no longer be cancelled.");
             }
 
             BigDecimal curBalance = cardToSave.getBalance();
